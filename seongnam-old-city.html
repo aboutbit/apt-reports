@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>구 성남 구축 단지 투자가치 분석 리포트</title>
+<style>
+  :root {
+    --ink: #0B1220;
+    --ink-soft: #1f2937;
+    --accent: #B91C1C;
+    --accent-light: #DC2626;
+    --gold: #B45309;
+    --bull: #DC2626;
+    --bear: #2563EB;
+    --paper: #FAF7F2;
+    --line: #E7E2D6;
+    --muted: #6B7280;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  header.cover {
+    background: linear-gradient(135deg, #1A1A2E 0%, #16213E 50%, #0F3460 100%);
+    color: #fff;
+    padding: 48px 36px;
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  header.cover::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 24px;
+    width: 22px; height: 64px;
+    background: linear-gradient(180deg, #F59E0B 0%, var(--gold) 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+  }
+  header.cover .tag {
+    display: inline-block;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: #F59E0B;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  header.cover h1 {
+    font-size: 34px;
+    margin: 0 0 8px 0;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  header.cover .sub {
+    font-size: 15px;
+    opacity: 0.88;
+    margin: 0;
+  }
+  header.cover .meta {
+    margin-top: 20px;
+    font-size: 13px;
+    opacity: 0.7;
+  }
+
+  section { margin-bottom: 36px; }
+  h2 {
+    font-size: 22px;
+    border-left: 4px solid var(--accent);
+    padding-left: 14px;
+    margin: 0 0 16px 0;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  h3 {
+    font-size: 16px;
+    margin: 20px 0 8px;
+    color: var(--ink-soft);
+  }
+  h4 {
+    font-size: 14px;
+    margin: 12px 0 6px;
+    color: var(--ink-soft);
+  }
+  p { margin: 0 0 12px; color: var(--ink-soft); }
+  ul, ol { margin: 8px 0 12px; padding-left: 22px; color: var(--ink-soft); }
+  li { margin-bottom: 6px; }
+
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .card-accent {
+    background: #FFF7ED;
+    border: 1px solid #FCD9B4;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0 16px;
+    font-size: 13.5px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  th, td {
+    padding: 11px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  th {
+    background: #F5EFE0;
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 12.5px;
+  }
+  tr:last-child td { border-bottom: none; }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    margin-right: 6px;
+  }
+  .badge-verified  { background: #DCFCE7; color: #166534; }
+  .badge-progress  { background: #FEF3C7; color: #92400E; }
+  .badge-planned   { background: #DBEAFE; color: #1E40AF; }
+  .badge-caveat    { background: #FECACA; color: #991B1B; }
+  .badge-stale     { background: #E5E7EB; color: #4B5563; }
+
+  .impact {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 10.5px;
+    font-weight: 700;
+    margin-left: 4px;
+  }
+  .impact-direct   { background: var(--accent); color: #fff; }
+  .impact-indirect { background: #E5E7EB; color: #4B5563; }
+
+  .alert {
+    background: #FFF7ED;
+    border-left: 4px solid var(--gold);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .alert.danger {
+    background: #FEF2F2;
+    border-left-color: var(--bear);
+  }
+  .alert b { color: var(--ink); }
+
+  .timing {
+    background: linear-gradient(135deg, #FEF3C7 0%, #FDE68A 100%);
+    border: 1px solid #F59E0B;
+    border-radius: 14px;
+    padding: 24px;
+  }
+  .timing .score {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .timing .score .big {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--gold);
+    letter-spacing: -0.03em;
+  }
+  .timing .score .label {
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+
+  .timeline {
+    border-left: 2px solid var(--gold);
+    padding-left: 18px;
+    margin: 16px 0;
+  }
+  .timeline .item { margin-bottom: 16px; position: relative; }
+  .timeline .item::before {
+    content: "";
+    position: absolute;
+    left: -25px;
+    top: 6px;
+    width: 10px; height: 10px;
+    background: var(--gold);
+    border-radius: 50%;
+    border: 2px solid var(--paper);
+  }
+  .timeline .when {
+    font-size: 13px;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .timeline .what { font-weight: 600; color: var(--ink); }
+  .timeline .desc { font-size: 13px; color: var(--muted); }
+
+  .ranking {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 14px;
+  }
+  .rank-card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 16px 20px;
+    border-left: 5px solid var(--accent);
+  }
+  .rank-card.t2 { border-left-color: var(--gold); }
+  .rank-card.t3 { border-left-color: #6B7280; }
+  .rank-card .rank-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  .rank-card .rank-num {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+  .rank-card.t2 .rank-num { color: var(--gold); }
+  .rank-card.t3 .rank-num { color: #6B7280; }
+  .rank-card .rank-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .rank-card .rank-tag {
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .rank-card ul { margin: 6px 0 0; padding-left: 18px; }
+  .rank-card li { font-size: 13.5px; margin-bottom: 4px; }
+
+  .risk { color: var(--bear); font-weight: 600; }
+  .gain { color: var(--bull); font-weight: 600; }
+
+  .disclaimer {
+    margin-top: 40px;
+    padding: 16px 20px;
+    background: #F5EFE0;
+    border-radius: 10px;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .sources { margin-top: 24px; font-size: 12px; color: var(--muted); }
+  .sources a { color: var(--ink-soft); }
+
+  .toc {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 24px;
+    margin-bottom: 28px;
+    font-size: 13px;
+  }
+  .toc a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin-right: 14px;
+    display: inline-block;
+    padding: 4px 0;
+  }
+  .toc a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="cover">
+    <div class="tag">REAL ESTATE DEEP-DIVE · OLD-BUILD VALUE PLAYS</div>
+    <h1>구 성남 구축 단지 투자가치 분석</h1>
+    <p class="sub">수정구·중원구 — 재개발 호재 + 8호선/위례선/GTX-A 인프라 + 구축 가성비 매수 전략</p>
+    <div class="meta">발행일 2026.05.11 · 신축 제외, 구축·준구축 위주 / 정비구역·교통호재 사실 검증 기반</div>
+  </header>
+
+  <nav class="toc">
+    <a href="#summary">① 핵심 요약</a>
+    <a href="#geography">② 권역 지리</a>
+    <a href="#infra">③ 메가 인프라 호재</a>
+    <a href="#redev">④ 재개발 지형도</a>
+    <a href="#candidates">⑤ 구축 후보군 비교</a>
+    <a href="#rebuild">⑥ 단지별 재건축 가능성</a>
+    <a href="#ranking">⑦ 투자 우선순위</a>
+    <a href="#timing">⑧ 매수 적기 / 리스크</a>
+    <a href="#checklist">⑨ 체크리스트</a>
+  </nav>
+
+  <section id="summary">
+    <h2>① 핵심 요약 (TL;DR)</h2>
+    <div class="card-accent">
+      <h3 style="margin-top:0;">구 성남 = "한국 부동산 시장의 가장 큰 단일 재개발 벨트"</h3>
+      <p>성남시 수정구·중원구는 <b>판교·위례·강남 사이에 끼인 노후 구도심</b>으로, 향후 5~10년간 14개+ 재개발 구역이 순차 정비되며 신축 주거 벨트로 재편된다. 신축은 이미 평당 3,500~4,500만원대로 진입했지만, <b>구축은 재개발 인접 입지·교통 호재 직접 수혜에도 불구하고 LH/택지지구 디스카운트가 잔존</b>해 가성비 진입이 가능한 상태.</p>
+      <h4>3가지 핵심 매수 논리</h4>
+      <ol>
+        <li><b>"재개발 후광효과"</b> — 옆 동네에 3,487세대 산성역 헤리스톤(2027.12 입주), 8,792세대 상대원3구역(정비구역 지정 완료)이 들어오면 인접 구축 단지의 입지 가치도 동반 상승</li>
+        <li><b>"4중 교통 호재 직접 수혜"</b> — 8호선(기존)·GTX-A 성남역(이미 개통)·위례선 트램(2026.12)·위례신사선(2031~2032)·8호선 판교 연장(2035) — 구도심이 강남·판교 접근성을 동시에 확보하는 유일한 권역</li>
+        <li><b>"구축 LH 디스카운트"</b> — 도촌동 휴먼시아·동분당 시리즈는 LH 브랜드 디스카운트로 인접 신축 대비 평당 30~50% 저렴. 입지는 거의 동일</li>
+      </ol>
+
+      <h4 style="margin-top:18px;">⚠ 재건축 관련 중요 주의</h4>
+      <p>본 리포트가 다루는 모든 단지는 <b>단기·중기 재건축 모멘텀이 없다</b>. 가장 빠른 도촌 포레스트도 30년 도달이 2037년이며, 용적률(단대푸르지오 232% / 도촌 165~169% / 위례 169~203%)도 자력 재건축에 충분치 않다. <b>재건축을 매수 논리의 중심에 두면 안 되고, 입지·교통호재·인접 재개발 후광 3축으로 가치를 판단</b>해야 한다. 자세한 단지별 매트릭스와 투자 프레임은 <a href="#rebuild">⑥ 단지별 재건축 가능성 섹션</a>을 참조.</p>
+    </div>
+  </section>
+
+  <section id="geography">
+    <h2>② 구 성남 권역 지리</h2>
+    <table>
+      <thead>
+        <tr><th>구분</th><th>주요 생활권</th><th>특징</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>수정구</th>
+          <td>신흥·태평·수진·산성·단대·복정·창곡(위례)·양지·고등</td>
+          <td>8호선 라인 + 위례신도시 일부. 산성역·신흥역·단대오거리역 중심 재개발 집중</td>
+        </tr>
+        <tr>
+          <th>중원구</th>
+          <td>성남·금광·은행·상대원·도촌·하대원·중앙</td>
+          <td>모란역·중원경찰서·상대원공단 권역. 상대원3구역(8,792세대)이 핵심. 도촌동은 별도 택지지구</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="alert">
+      <b>주의:</b> "구 성남"은 일반적으로 <b>분당구를 제외한 수정구+중원구</b>를 가리킨다. 본 리포트도 같은 정의를 따른다. 분당 구축(시범단지·서현·이매·정자 등)은 별도 카테고리로 다뤄야 한다.
+    </div>
+  </section>
+
+  <section id="infra">
+    <h2>③ 메가 인프라 호재 (사실 검증 완료)</h2>
+    <table>
+      <thead>
+        <tr><th>인프라</th><th>상태</th><th>시점</th><th>구 성남 영향</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>GTX-A 성남역</b></td>
+          <td><span class="badge badge-verified">개통 완료</span></td>
+          <td>2024.03.30</td>
+          <td>서울역까지 15분. 단, 정차역이 분당 성남역이라 구도심은 8호선 환승 경유</td>
+        </tr>
+        <tr>
+          <td><b>위례선 트램</b></td>
+          <td><span class="badge badge-progress">공사중</span></td>
+          <td>2026.12 개통 예정</td>
+          <td>위례신도시 내부 순환 (마천~복정). 위례 구역 직접 수혜</td>
+        </tr>
+        <tr>
+          <td><b>위례신사선</b></td>
+          <td><span class="badge badge-verified">재정사업 확정 (2026.2)</span></td>
+          <td>2031~2032 개통 예상</td>
+          <td>위례중앙~신사역, 14.7km 11~12개역. 위례·복정·창곡 권역 강남 직결</td>
+        </tr>
+        <tr>
+          <td><b>8호선 판교 연장</b></td>
+          <td><span class="badge badge-planned">예타 대상 선정 (2026.1)</span></td>
+          <td>2030 착공 / 2035 개통 목표</td>
+          <td>모란~판교 3.78km, 봇들사거리역·판교역 2개역 추가. 모란~판교 6분</td>
+        </tr>
+        <tr>
+          <td><b>분당선 (기존)</b></td>
+          <td><span class="badge badge-verified">운영중</span></td>
+          <td>—</td>
+          <td>모란·태평·가천대·복정. 8호선과 함께 구도심 핵심 축</td>
+        </tr>
+        <tr>
+          <td><b>8호선 (기존)</b></td>
+          <td><span class="badge badge-verified">운영중</span></td>
+          <td>—</td>
+          <td>모란~잠실 30분. 단대오거리·신흥·수진·산성·복정 — 구도심 척추</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="alert">
+      <b>핵심 시사점:</b> 구 성남 구축의 교통 호재는 <b>"신설 노선 하나"가 아니라 "기존 8호선 + 신설 다중 노선"의 누적 효과</b>다. 특히 <b>8호선 라인 단지</b>는 모란~판교 연장(2035)·위례선·기존 분당선 환승 등 멀티 호재가 모두 8호선을 경유한다. 8호선 도보권 = 모든 호재의 수혜 노드.
+    </div>
+  </section>
+
+  <section id="redev">
+    <h2>④ 재개발 지형도 (검증된 사실)</h2>
+
+    <h3>완공/입주 완료 (선행 사례 = 인접 구축 시세 기준선)</h3>
+    <table>
+      <thead>
+        <tr><th>단지</th><th>위치</th><th>세대수</th><th>입주</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>산성역 자이푸르지오</td><td>신흥동 (신흥2구역)</td><td>~4,089세대 (1~4단지)</td><td>2023.10</td></tr>
+        <tr><td>산성역 포레스티아</td><td>신흥동</td><td>~4,089세대</td><td>2020.07</td></tr>
+        <tr><td>단대푸르지오</td><td>단대동</td><td>1,015세대</td><td>2012 (준신축)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>공사중/입주 임박</h3>
+    <table>
+      <thead>
+        <tr><th>구역</th><th>단지명</th><th>규모</th><th>입주 예정</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>산성구역</td>
+          <td>산성역 헤리스톤 (대우·GS·SK)</td>
+          <td>총 3,487세대 (45개동, 일반분양 1,224세대)</td>
+          <td>2027.12</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>정비구역 지정 완료/진행 (재개발 중장기 파이프라인)</h3>
+    <table>
+      <thead>
+        <tr><th>구역</th><th>상태</th><th>규모/특징</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>상대원3구역</b> (중원구)</td>
+          <td><span class="badge badge-progress">정비구역 지정 고시</span></td>
+          <td><b>8,792세대 (분양 7,267 + 임대 1,525) — 전국 최대 규모 재개발 단지</b>. 부지 45만470㎡</td>
+        </tr>
+        <tr>
+          <td>수진2구역</td>
+          <td><span class="badge badge-progress">정비계획 수립</span></td>
+          <td>2026년 정비구역 지정 목표</td>
+        </tr>
+        <tr>
+          <td>태평2·4구역</td>
+          <td><span class="badge badge-progress">정비계획 수립</span></td>
+          <td>2026년 정비구역 지정 목표</td>
+        </tr>
+        <tr>
+          <td>산성구역 (별도)</td>
+          <td><span class="badge badge-progress">진행 중</span></td>
+          <td>위 산성역 헤리스톤과 별개</td>
+        </tr>
+        <tr>
+          <td>단대구역</td>
+          <td><span class="badge badge-progress">정비계획 수립</span></td>
+          <td>2026년 정비구역 지정 목표</td>
+        </tr>
+        <tr>
+          <td>상대원1구역</td>
+          <td><span class="badge badge-progress">정비계획 수립</span></td>
+          <td>2026년 정비구역 지정 목표</td>
+        </tr>
+        <tr>
+          <td>신흥3·태평3구역</td>
+          <td><span class="badge badge-planned">후속 구역</span></td>
+          <td>신흥1·2 완공 이후 차순위 진행</td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px; color:var(--muted);">※ 성남시 발표 기준 원도심 14개+ 구역에서 재개발 완료·추진. 본 표는 2026년 이후 모멘텀이 있는 구역만 발췌.</p>
+  </section>
+
+  <section id="candidates">
+    <h2>⑤ 구축 후보군 비교 (사용자 관심사: 신축 제외, 구축 위주)</h2>
+
+    <p>구 성남의 "구축"은 크게 3개 유형으로 나뉜다. 각각 투자 논리가 다르다.</p>
+
+    <h3>유형 A — 8호선 라인 도심 구축 (재개발 미진행)</h3>
+    <div class="card">
+      <p>단대동·신흥동·태평동·수진동 80~90년대 구축. 대부분 재개발 진행 중이거나 후보지로, <b>"재개발 입주권" 투자 영역</b>이다. 본 리포트의 "거주용 구축" 범주에 부합하지 않음 (조합원 분담금·이주 리스크 큼).</p>
+      <p><b>예외 = 단대푸르지오 (2012 입주, 1,015세대)</b></p>
+      <ul>
+        <li><b>위치:</b> 수정구 단대동 — 남한산성입구역(8호선) 도보 5분 + 단대오거리역(8호선) 도보 9분 <b>더블역세권</b></li>
+        <li><b>규모:</b> 1,015세대, 13개동. 평형 다양 (전용 59·84·114·126㎡)</li>
+        <li><b>입주:</b> 2012년 → 2026년 기준 14년차 = "구축이라 부르기 애매한 준신축"</li>
+        <li><b>특징:</b> 8호선으로 수서역 3정거장, 강남 접근성 우수. 산성역 헤리스톤 완공 시 인접 입지로 시세 후광 기대</li>
+        <li><b>한계:</b> 이미 시장이 알아본 단지로 호가 반영 상당히 진행됨</li>
+      </ul>
+    </div>
+
+    <h3>유형 B — 도촌지구 택지개발 구축 (재개발 무관)</h3>
+    <div class="card">
+      <p>중원구 도촌동은 <b>2007~2010년 LH 통합 기획으로 조성된 미니 택지지구</b>로, 재개발과 무관한 깔끔한 단지군. 분당 동쪽에 접해 <b>"동분당" 마케팅 라벨</b>이 붙는다. 호재 의존도가 낮은 대신 LH 디스카운트가 잔존해 가성비 진입이 가능.</p>
+      <table>
+        <thead>
+          <tr><th>단지</th><th>입주</th><th>세대수</th><th>특징</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>휴먼시아 섬마을 1단지</td><td>2008.02</td><td>540세대</td><td>일부 임대 혼합 (분양·임대 소셜믹스)</td></tr>
+          <tr><td>휴먼시아 섬마을 2단지</td><td>2008.02</td><td>—</td><td>분양 위주</td></tr>
+          <tr><td>휴먼시아 섬마을 5단지</td><td>2008</td><td>633세대 (12개동)</td><td>중형 위주</td></tr>
+          <tr><td>LH 동분당 더퍼스트</td><td>2007~2010 권역</td><td>—</td><td>"동분당" 라벨 적용 LH 단지</td></tr>
+          <tr><td>LH 동분당 포레스트</td><td>2007.12</td><td>—</td><td>도촌지구 핵심 단지 중 하나</td></tr>
+          <tr><td>LH 동분당 센트럴파크</td><td>2010.11</td><td>—</td><td>지구 후행 입주, 상대적 신축</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:12px; color:var(--muted);">※ 도촌동 휴먼시아·동분당 시리즈 세대수 일부는 다중 출처에서 정확히 확인되지 않아 공란 처리. 호갱노노에서 단지별 확인 권장.</p>
+    </div>
+
+    <h3>유형 C — 위례신도시 구축 (2013~2017 입주)</h3>
+    <div class="card">
+      <p>위례신도시는 송파구·성남시(수정구 창곡동)·하남시에 걸친 광역 신도시로, 본 리포트는 <b>성남 수정구 창곡동 측 단지군</b>을 다룬다. 송파 장지동의 위례 22·24단지(한라비발디·꿈에그린, 2013.11 입주)는 행정구역상 서울이라 별도. 창곡동 측은 2015~2017년에 본격 입주한 민간 분양 단지가 주력이다.</p>
+      <table>
+        <thead>
+          <tr><th>단지</th><th>블록</th><th>입주</th><th>세대수</th><th>용적률</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>래미안위례</td><td>A2-4</td><td>2015.11</td><td>410</td><td class="num">179%</td></tr>
+          <tr><td>힐스테이트위례</td><td>A2-12</td><td>2015.11</td><td>621</td><td class="num">~180%</td></tr>
+          <tr><td>위례자이</td><td>A2-3</td><td>2016.10</td><td>517</td><td class="num">169%</td></tr>
+          <tr><td>위례센트럴자이</td><td>A2-2</td><td>2017.07</td><td>1,413</td><td class="num">179%</td></tr>
+        </tbody>
+      </table>
+      <ul>
+        <li><b>장점:</b> 계획도시 인프라 + 위례선·위례신사선 동시 직접 수혜 + <b>용적률 169~179%로 위례 단지군 중 정비사업 사업성 최상위</b></li>
+        <li><b>한계:</b> 이미 평당 4,000만원+ 진입, "구축 가성비" 범주에 부적합. 입주 9~11년차로 진정한 "구축"보다는 "준신축"</li>
+      </ul>
+    </div>
+
+    <h3>핵심 비교표</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>유형</th>
+          <th>대표 단지</th>
+          <th>입주</th>
+          <th>호재 직접 수혜</th>
+          <th>리스크</th>
+          <th>적합 투자자</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>A. 8호선 도심 구축</td>
+          <td>단대푸르지오</td>
+          <td>2012</td>
+          <td>★★★★ (8호선·재개발 후광)</td>
+          <td>이미 시세 반영</td>
+          <td>실거주+자산성장</td>
+        </tr>
+        <tr>
+          <td>A'. 재개발 입주권</td>
+          <td>수진2·단대구역 구축</td>
+          <td>~1990</td>
+          <td>★★★★★ (재개발 자체)</td>
+          <td>분담금·이주·지연</td>
+          <td>장기 투자·전문가</td>
+        </tr>
+        <tr>
+          <td>B. 도촌지구 LH 구축</td>
+          <td>휴먼시아 섬마을 5단지</td>
+          <td>2008</td>
+          <td>★★ (간접 후광만)</td>
+          <td>호재 약함 / LH 디스카운트</td>
+          <td>실거주+가성비</td>
+        </tr>
+        <tr>
+          <td>C. 위례 창곡동 준신축</td>
+          <td>래미안위례 / 위례자이 / 위례센트럴자이</td>
+          <td>2015~2017</td>
+          <td>★★★★★ (위례선 직접)</td>
+          <td>이미 가격 진입</td>
+          <td>실거주 우선·중자산</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section id="rebuild">
+    <h2>⑥ 단지별 재건축·리모델링 가능성 (심층 분석)</h2>
+
+    <p>사용자가 가장 궁금해한 핵심 질문: <b>"이 구축 단지들은 재건축 가능성이 있는가? 가능성이 적다면 투자가치 측면에서 어떻게 봐야 하는가?"</b> 결론부터 말하면 <b>본 리포트가 다루는 단지 대부분은 단기·중기 재건축 모멘텀이 없다</b>. 그러나 "재건축 모멘텀 없음 = 투자 부적격"은 아니며, 입지·정책·리모델링·신축 공급 변수를 함께 봐야 한다.</p>
+
+    <h3>6-1. 한국 재건축의 게임 룰 (2026년 5월 기준)</h3>
+    <div class="card">
+      <h4>① 30년 룰 + 안전진단 패싱 (2025.6 시행)</h4>
+      <p>2024.11 국회 통과 「도시 및 주거환경정비법」 개정안이 2025.6 시행되면서 <b>준공 30년 경과 단지는 안전진단(현 명칭 '재건축진단') 통과 없이 정비계획 수립·정비구역 지정·조합설립까지 진입 가능</b>. 진단은 사업시행계획인가 전까지만 마치면 됨. 전체 사업기간 약 3년 단축 기대.</p>
+      <p><b>30년 미만 단지는 여전히 안전진단 D·E 등급 필요</b> → 자력 재건축 진입 사실상 불가. 활로는 ① 노후계획도시 특별법 편입, ② 리모델링뿐.</p>
+
+      <h4>② 노후계획도시 정비특별법 (2024.4 시행)</h4>
+      <ul>
+        <li>대상: <b>100만㎡ 이상 + 20년 이상 경과</b> 택지지구. 인접·연접 합산 가능</li>
+        <li>혜택: 안전진단 면제·완화 / 기준용적률 상향(분당 아파트 326%) / 통합심의 / 공공기여 차등(1단계 10%, 2단계 41~50%)</li>
+        <li>1기 신도시 5곳(분당·일산·평촌·산본·중동)이 선두 — 2024.11 선도지구 지정, 2025년 기본계획 승인 완료</li>
+      </ul>
+
+      <h4>③ 용적률·신축 시세 임계선 (시장의 묵시적 룰)</h4>
+      <p>업계 분석은 일관: <b>주변 신축 33평 시세가 15억 미만 + 기존 용적률 200%+ 조합</b>이면 재건축은 사실상 영구 불가. 강남 외 수도권·지방 구축에 광범위 적용. 본 리포트 단지 대부분이 이 임계선 안에 위치.</p>
+
+      <h4>④ 리모델링 (15년 이상)</h4>
+      <ul>
+        <li>2025.4 수직증축 확대: 15층+ 최대 3개층, 14층↓ 최대 2개층 증축 / 세대수 증가 한도 10% → <b>15%</b></li>
+        <li>2024.5 기준 전국 조합설립 인가 153개 단지(5년 전 대비 4배). 다만 분담금 폭등으로 <b>실제 착공률 10% 미만</b></li>
+        <li>성남시는 리모델링 기본계획 별도 운영. 분당권(정자·서현·이매·야탑·미금) 1990년대 초중반 단지 다수 추진 중</li>
+      </ul>
+    </div>
+
+    <h3>6-2. 단지별 재건축 가능성 매트릭스</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>단지</th>
+          <th>입주</th>
+          <th>세대수</th>
+          <th>용적률</th>
+          <th>30년 도달</th>
+          <th>재건축</th>
+          <th>리모델링</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>단대푸르지오</b> (수정구 단대동)</td>
+          <td>2012.09</td>
+          <td>1,015</td>
+          <td class="num"><b>232%</b></td>
+          <td>2042.09</td>
+          <td><span class="badge badge-caveat">사실상 불가</span></td>
+          <td><span class="badge badge-progress">보통</span> (2027 요건↑)</td>
+        </tr>
+        <tr>
+          <td><b>동분당 포레스트</b> (중원구 도촌동)</td>
+          <td>2007.12</td>
+          <td>408</td>
+          <td class="num">169%</td>
+          <td>2037.12</td>
+          <td><span class="badge badge-caveat">낮음</span></td>
+          <td><span class="badge badge-planned">중장기 가능</span></td>
+        </tr>
+        <tr>
+          <td><b>동분당 더퍼스트</b> (도촌동)</td>
+          <td>2010</td>
+          <td>633</td>
+          <td class="num">168%</td>
+          <td>2040</td>
+          <td><span class="badge badge-caveat">낮음</span></td>
+          <td><span class="badge badge-planned">중장기 가능</span></td>
+        </tr>
+        <tr>
+          <td><b>LH 동분당 센트럴파크</b><br>(=섬마을 1단지 분양분, 도촌동)</td>
+          <td>2010.11</td>
+          <td>842</td>
+          <td class="num">165%</td>
+          <td>2040.11</td>
+          <td><span class="badge badge-caveat">낮음</span></td>
+          <td><span class="badge badge-planned">중장기 가능</span></td>
+        </tr>
+        <tr>
+          <td><b>섬마을 2단지</b> (LH 국민임대, 도촌동)</td>
+          <td>2008</td>
+          <td>534</td>
+          <td class="num">n/a</td>
+          <td>2038</td>
+          <td><span class="badge badge-caveat">사실상 불가</span></td>
+          <td><span class="badge badge-caveat">불가</span></td>
+        </tr>
+        <tr>
+          <td><b>섬마을 5단지</b> (LH 국민임대, 도촌동)</td>
+          <td>2008</td>
+          <td>633</td>
+          <td class="num">n/a</td>
+          <td>2038</td>
+          <td><span class="badge badge-caveat">사실상 불가</span></td>
+          <td><span class="badge badge-caveat">불가</span></td>
+        </tr>
+        <tr>
+          <td><b>래미안위례</b> (수정구 창곡동)</td>
+          <td>2015.11</td>
+          <td>410</td>
+          <td class="num">179%</td>
+          <td>2045.11</td>
+          <td><span class="badge badge-caveat">사실상 불가</span></td>
+          <td><span class="badge badge-planned">장기 높음</span></td>
+        </tr>
+        <tr>
+          <td><b>위례자이</b> (창곡동)</td>
+          <td>2016.10</td>
+          <td>517</td>
+          <td class="num"><b>169%</b></td>
+          <td>2046.10</td>
+          <td><span class="badge badge-caveat">사실상 불가</span></td>
+          <td><span class="badge badge-planned">장기 높음 (위례 최우량)</span></td>
+        </tr>
+        <tr>
+          <td><b>위례센트럴자이</b> (창곡동)</td>
+          <td>2017.07</td>
+          <td>1,413</td>
+          <td class="num">179%</td>
+          <td>2047.07</td>
+          <td><span class="badge badge-caveat">사실상 불가</span></td>
+          <td><span class="badge badge-planned">장기 높음</span></td>
+        </tr>
+        <tr>
+          <td>참고: 위례 22단지(한라비발디, <b>송파</b>)</td>
+          <td>2013.11</td>
+          <td>1,139</td>
+          <td class="num">203%</td>
+          <td>2043.11</td>
+          <td><span class="badge badge-caveat">불가</span></td>
+          <td><span class="badge badge-caveat">낮음</span></td>
+        </tr>
+        <tr>
+          <td>참고: 위례 24단지(꿈에그린, <b>송파</b>)</td>
+          <td>2013.11</td>
+          <td>1,810</td>
+          <td class="num">194%</td>
+          <td>2043.11</td>
+          <td><span class="badge badge-caveat">불가</span></td>
+          <td><span class="badge badge-caveat">낮음</span></td>
+        </tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px; color:var(--muted);">※ 용적률 출처: 호갱노노·KBland·디스코 단지 페이지. 임대 단지(섬마을 2·5)는 공개 포털 미공개로 n/a. 30년 도달은 입주연월 + 30년 단순 계산이며, 실제 정비사업 진입은 보통 25년차부터 검토 시작.</p>
+
+    <div class="alert">
+      <b>핵심 시사점:</b> <b>본 리포트 단지 전체가 단기(5년 내) 재건축 모멘텀이 없다</b>. 가장 빠른 동분당 포레스트도 30년 도달 2037년. 더 본질적인 문제는 <b>용적률</b>이다.
+      <ul style="margin:8px 0 0;">
+        <li><b>단대푸르지오 232%</b> — 사업성 임계치(200% 이하)를 넘어 종상향 없이는 재건축 불가</li>
+        <li><b>도촌 분양분 165~169%</b> — 산술적 사업성 양호 구간이나, 택지지구 + 중층 + 노후계획도시 특별법 미적용으로 인센티브 여력 제한</li>
+        <li><b>위례 창곡동 169~179%</b> — 위례 단지군 중 사업성 최상위지만 입주 9~11년차로 시점 너무 이름</li>
+      </ul>
+    </div>
+
+    <h3>6-3. 노후계획도시 특별법 — 도촌·위례에 적용되나?</h3>
+    <div class="card">
+      <h4>도촌지구 (약 31만㎡, 2007~2010 입주)</h4>
+      <ul>
+        <li><b>단독 100만㎡ 미달</b> → 자력 적용 불가</li>
+        <li>그러나 <b>인접·연접 합산 조항</b>으로 분당과 묶일 여지 존재. <b>「2035 성남시 노후계획도시 정비기본계획(안)」</b>(2024.9 주민공람) 대상지에 분당과 함께 <b>도촌동이 명시적으로 포함</b>되는 정황 → 입주 20년 도래(2027~2030년)에 맞춰 본격 적용 시나리오</li>
+        <li>다만 1990년대 초 입주한 분당 본도시 대비 노후도가 낮고 용적률이 이미 높아 <b>사업성은 분당의 절반 이하</b></li>
+        <li><span class="risk">불확실:</span> 도촌지구의 2035 기본계획 최종 편입 여부는 성남시청 도시정비과 직접 확인 권장</li>
+      </ul>
+
+      <h4>위례신도시 (약 677만㎡, 2013~2017 입주)</h4>
+      <ul>
+        <li>면적 요건 충족(100만㎡↑)</li>
+        <li><b>그러나 20년 경과 시점이 2033~2037년</b> → 2026년 현재는 적용 불가, 빨라야 2033년 이후 후보지</li>
+        <li>송파·성남·하남 3개 지자체에 걸쳐 있어 기본계획 수립 주체 조율이 추가 난제</li>
+      </ul>
+
+      <h4>구 성남 수정·중원 아파트 단지</h4>
+      <ul>
+        <li>분당 1기 신도시 19.6㎢에 미포함. 단독 100만㎡ 충족 가능성 없음</li>
+        <li>성남시 <b>2030 정비기본계획(2024.8 변경고시)</b>은 재건축 대상 17개 단지·10,807세대 지정했으나 단대동 미도 등 원도심 단지 위주 → <b>도촌·단대푸르지오·위례 단지 모두 미포함</b></li>
+      </ul>
+    </div>
+
+    <h3>6-4. 리모델링 트랙 — "재건축 안 되면 리모델링이라도?"</h3>
+    <div class="card">
+      <p>본 리포트 단지 중 <b>2008년 이전 입주 단지는 이미 리모델링 가능 연한(15년) 도달</b>. 다만 추진 동향은 아직 약하다.</p>
+      <table>
+        <thead>
+          <tr><th>단지</th><th>15년 도달</th><th>현재 추진 상태</th><th>사업성 평가</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>동분당 포레스트</td><td>2022.12 (도달)</td><td>조합·동의서 보도 없음</td><td>용적률 169%·408세대 → 양호</td></tr>
+          <tr><td>섬마을 1단지(센트럴파크)</td><td>2025.11 (도달)</td><td>보도 없음</td><td>용적률 165%·842세대 → 양호</td></tr>
+          <tr><td>동분당 더퍼스트</td><td>2025 (도달)</td><td>보도 없음</td><td>용적률 168%·633세대 → 양호</td></tr>
+          <tr><td>단대푸르지오</td><td><b>2027.09</b></td><td>아직 미도달</td><td>용적률 232%·8호선 더블역세권 → 입지는 최상, 사업성은 평이</td></tr>
+          <tr><td>래미안위례·위례자이</td><td>2030~2031</td><td>입주 9~10년차로 시점 이름</td><td>용적률 169~179% → <b>2030년대 진입 시 위례 최우량 후보</b></td></tr>
+        </tbody>
+      </table>
+      <p><b>학습 사례:</b> 분당 한솔마을5·매화1·2·느티3·4단지 등 1991~1994년 입주 단지가 리모델링 사업승인 단계 진입. 도촌지구 분양분 3개 단지는 <b>분당 학습효과를 따라 2030년대 초반 리모델링 추진 가능성</b>이 가장 현실적인 시나리오.</p>
+      <p class="risk">단, 분담금 폭등으로 전국 실제 착공률은 10% 미만. "리모델링 가능 = 사업 진행"이 아니라는 점 유의.</p>
+    </div>
+
+    <h3>6-5. 핵심 질문 — "재건축 가능성 적은 구축, 투자가치 있나?"</h3>
+    <div class="card-accent">
+      <p><b>사용자의 핵심 우려에 대한 직접 답변:</b> 본 리포트가 다루는 구축은 <b>"재건축 입주권 게임" 영역이 아니다</b>. 그러므로 재건축을 매수 논리의 중심에 두는 순간 투자 실패 확률이 높다. 반대로 <b>재건축 외 3개 축으로 투자가치를 재구성</b>하면 일부 단지는 충분히 매력적이다.</p>
+
+      <h4>축 1 — 입지 (가장 결정적)</h4>
+      <ul>
+        <li><b>강남 접근성 + 신설 교통망 직접 수혜</b>가 있는 단지는 재건축이 없어도 시세 방어/상승</li>
+        <li>본 리포트 단지 중 가장 유리: <b>단대푸르지오(8호선 더블역세권 + 산성역 헤리스톤 후광)</b>, <b>위례 창곡동 단지군(위례선·위례신사선 직접)</b></li>
+        <li>가장 취약: 도촌동 LH 시리즈 — 8호선 도보권 아님, 분당 시세 위성형 자산</li>
+      </ul>
+
+      <h4>축 2 — 신축 공급 압력</h4>
+      <ul>
+        <li>2023~2025 성남·용인·화성 신축 공급 약 4.2만 가구 = "공급 절벽". 단기(2026~2028)는 신축 희소성이 구축까지 끌어올림</li>
+        <li>그러나 인근 신축이 본격 공급되는 시점(상대원3구역 8,792세대 2028~2029 분양, 산성역 헤리스톤 3,487세대 2027.12 입주)에 <b>입지 메리트 없는 구축은 수요 이탈 위험</b></li>
+        <li>분당 vs 광교 사례: 광교가 노후화 전 단계에선 분당 구축 우위, 1기 신도시 재건축 가시화 후엔 선도지구 외 단지 가격 분화</li>
+      </ul>
+
+      <h4>축 3 — 정비사업 외 가치 보존 시나리오</h4>
+      <ul>
+        <li><b>리모델링</b>: 분담금 부담 크고 실제 착공률 낮음. 기대 수익 한정</li>
+        <li><b>재개발 후광</b>: 인접 노후 단독·연립 재개발로 동네 자체가 신축화 → 입지 재평가. <b>구 성남 구축의 가장 현실적 가치 상승 경로</b></li>
+        <li><b>신축 수렴</b>: 인근 신축 평당가의 0.6~0.8배 수준이 구축의 가성비 매수 기준선. 그 이상이면 신축 매수가 합리적</li>
+      </ul>
+
+      <h4>판단 프레임 (3-라인 체크)</h4>
+      <ol>
+        <li><b>인근 신축 33평이 15억 이상인가?</b> → 그렇다면 재건축 가능성 약해도 입지 자체로 시세 방어</li>
+        <li><b>도보 10분 내 강남 직결 노선이 있는가?</b> → 그렇다면 정비사업 없어도 실거주 수요 견고</li>
+        <li><b>인접 재개발 구역이 5년 내 입주 예정인가?</b> → 그렇다면 동네 신축화 후광으로 구축 가치 동반 상승</li>
+      </ol>
+      <p><b>본 리포트 단지 적용 결과:</b></p>
+      <ul>
+        <li><b>단대푸르지오</b>: 3개 모두 충족 → 재건축 모멘텀 없어도 투자가치 견고</li>
+        <li><b>위례 창곡동 단지</b>: 1·2번 충족, 3번 없음 → 정비사업 부재해도 신축 신도시 자체로 가치 방어</li>
+        <li><b>도촌 분양분(포레스트·더퍼스트·센트럴파크)</b>: 1·2·3번 모두 약함 → <b>"분당 위성형 자산" 성격을 인정한 가성비 진입</b>이어야 함. 분당 시세 흐름과 동조한다는 사실을 이해하고 매수</li>
+        <li><b>도촌 임대단지(섬마을 2·5)</b>: 매수 대상 아님 (LH 국민임대 중심)</li>
+      </ul>
+    </div>
+
+    <div class="alert danger">
+      <b>경계할 시그널 (재건축 기대 가격 거품 회피):</b>
+      <ul style="margin:0;">
+        <li>"용적률 200% 넘는데 재건축 호재" 마케팅 → 사업성 거짓</li>
+        <li>"입주 25년차도 안 된 단지에 재건축 추진위 결성" 보도 → 실효성 없음, 가격만 띄움</li>
+        <li>리모델링 추진위 결성 단계에서 "30% 시세 상승" 기대 → 실제 분담금 산정 단계에서 동력 소멸 사례 다수</li>
+        <li>"노후계획도시 특별법 편입 기대" 도촌·위례 시세 반영 → 도촌은 분당 연접 합산 시나리오 미확정, 위례는 빨라야 2033년</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="ranking">
+    <h2>⑦ 투자 우선순위 — 구축 가성비 매수 관점</h2>
+
+    <div class="ranking">
+      <div class="rank-card">
+        <div class="rank-head">
+          <div class="rank-num">1</div>
+          <div>
+            <div class="rank-name">단대푸르지오 (2012, 단대동)</div>
+            <div class="rank-tag">8호선 더블역세권 + 산성역 헤리스톤 후광</div>
+          </div>
+        </div>
+        <ul>
+          <li><b>왜 1순위:</b> 14년차 준신축인데 산성역 헤리스톤(2027.12) 완공 시 인접 입지로 시세 동반 상승. 8호선 더블역세권으로 강남·잠실 접근성.</li>
+          <li><b>거주 메리트:</b> 1,015세대 대단지 + 다양한 평형(59·84·114·126㎡) + 푸르지오 브랜드. "구축인데 살기 불편한" 단지가 아님.</li>
+          <li><b>리스크:</b> 이미 시장 인지도 높아 호가 일부 반영. 호갱노노 실거래로 단기 가격 모멘텀 확인 필수.</li>
+        </ul>
+      </div>
+
+      <div class="rank-card t2">
+        <div class="rank-head">
+          <div class="rank-num">2</div>
+          <div>
+            <div class="rank-name">도촌동 휴먼시아 섬마을 5단지 / LH 동분당 포레스트</div>
+            <div class="rank-tag">진정한 가성비 구축 — "동분당" 브랜딩으로 분당 후광</div>
+          </div>
+        </div>
+        <ul>
+          <li><b>왜 2순위:</b> 분당 동쪽에 접한 입지로 분당 학군·인프라 일부 공유. LH 디스카운트로 평당가 낮음. 18년차 구축이지만 택지지구라 단지 완성도 양호.</li>
+          <li><b>거주 메리트:</b> LH 통합 설계의 도로·녹지·학교 인프라. 실거주 만족도 비교적 균일.</li>
+          <li><b>리스크:</b> 직접 호재 부족 (위례선·8호선 연장 직접 수혜 없음). <b>분당 시세에 연동되는 위성형 자산</b>으로 봐야 함. 분당 약세 시 동반 약세.</li>
+          <li><b>실현 시나리오:</b> 분당 1기 신도시 재건축 본격화 시점에 인접 도촌지구가 "대체 거주지"로 재평가될 가능성.</li>
+        </ul>
+      </div>
+
+      <div class="rank-card t2">
+        <div class="rank-head">
+          <div class="rank-num">3</div>
+          <div>
+            <div class="rank-name">위례 창곡동 준신축 (래미안위례·위례자이·위례센트럴자이, 2015~2017)</div>
+            <div class="rank-tag">위례선·위례신사선 직접 수혜 + 위례 단지군 중 정비사업 사업성 최상위</div>
+          </div>
+        </div>
+        <ul>
+          <li><b>왜 3순위:</b> 입주 9~11년차로 진정한 "구축"보다는 "준신축". 위례선 트램(2026.12) + 위례신사선(2031~2032) 직접 수혜.</li>
+          <li><b>장기 차별점:</b> 용적률 169~179%로 위례 22·24단지(송파, 194~203%) 대비 사업성 우월. 2030년대 진입 시 리모델링 트랙 1순위 후보.</li>
+          <li><b>리스크:</b> 평당가가 이미 4,000만원+ 진입. 사용자의 "구축 가성비" 의도와 가격대가 어긋날 수 있음.</li>
+          <li><b>주의:</b> 위례신도시 내에서도 단지별 입지 격차 큼. 위례선 트램 정거장 도보권 여부가 결정적.</li>
+        </ul>
+      </div>
+
+      <div class="rank-card t3">
+        <div class="rank-head">
+          <div class="rank-num">4</div>
+          <div>
+            <div class="rank-name">재개발 인접 80~90년대 구축 (수진2·단대·태평2·4구역)</div>
+            <div class="rank-tag">"재개발 입주권" 영역 — 거주용 부적합</div>
+          </div>
+        </div>
+        <ul>
+          <li><b>왜 4순위:</b> 정비구역 지정 단계로 향후 입주권 가치 상승 기대. 그러나 사용자가 원하는 "구축에서 거주하며 가치 상승"과는 다른 영역.</li>
+          <li><b>리스크:</b> 분담금 산정·이주 시점·시공사 선정 등 변수 다수. 통상 정비구역 지정→입주까지 <b>10년+ 소요</b>.</li>
+          <li><b>적합:</b> 장기 보유 가능한 투자자 + 재개발 진행 단계 분석 가능한 전문성.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="alert">
+      <b>핵심 결론.</b> 사용자가 "신축은 비싸고 구축 위주"라고 한 의도에 가장 부합하는 1순위는 <b>단대푸르지오</b>(8호선 도심 준신축)이고, 진짜 "저렴한 구축"을 원한다면 <b>도촌동 LH 시리즈</b>가 가성비 정답이다. 단, 도촌동은 직접 호재가 약하므로 "분당 위성형 자산"이라는 성격을 이해하고 진입해야 한다.
+    </div>
+  </section>
+
+  <section id="timing">
+    <h2>⑧ 매수 적기 / 모멘텀 타임라인</h2>
+
+    <div class="timing">
+      <div class="score">
+        <div class="big">2026 하반기 ~ 2027 상반기</div>
+        <div class="label">권고 매수 윈도우 (1·2·3순위 공통)</div>
+      </div>
+
+      <h3>왜 이 시점인가</h3>
+      <ul>
+        <li><b>① 산성역 헤리스톤 입주 임박(2027.12) 직전</b> — 입주 전 6~12개월부터 인접 구축 시세 본격 동조. 그 전에 매수해야 가성비 확보.</li>
+        <li><b>② 상대원3구역 정비구역 지정 완료(2024) → 이주 단계 진입</b> — 8,792세대 대단지 이주 시 인근 전월세 수요 일시 증가. 임대 수익 측면 유리.</li>
+        <li><b>③ 위례선 트램 2026.12 개통 직전</b> — 위례 단지는 개통 전 가격 미반영분 잔존.</li>
+        <li><b>④ 8호선 판교 연장 예타 결과</b> — 2026년 중 예타 통과 여부 결정. 통과 시 단대·수진·신흥 라인 일제 재평가.</li>
+        <li><b>⑤ 금리 인하 사이클 진입</b> — 자금 조달 비용 하락 국면.</li>
+      </ul>
+    </div>
+
+    <h3>모멘텀 타임라인</h3>
+    <div class="timeline">
+      <div class="item">
+        <div class="when">2026 (현재)</div>
+        <div class="what">관망 + 정비구역 지정 1차 호재 반영</div>
+        <div class="desc">8호선 판교 연장 예타 결과 발표, 수정·중원 5개 구역 정비계획 확정.</div>
+      </div>
+      <div class="item">
+        <div class="when">2026.12</div>
+        <div class="what">위례선 트램 개통</div>
+        <div class="desc">위례 구역 직접 수혜. 개통 후에도 위례신사선 모멘텀 지속.</div>
+      </div>
+      <div class="item">
+        <div class="when">2027.12</div>
+        <div class="what">산성역 헤리스톤 입주 시작 (3,487세대)</div>
+        <div class="desc">신흥동 일대 인구 유입 + 인접 구축 시세 후광. 단대·태평 라인까지 확산.</div>
+      </div>
+      <div class="item">
+        <div class="when">2028~2029</div>
+        <div class="what">상대원3구역 일반분양 (예상)</div>
+        <div class="desc">8,792세대 대단지 분양가 책정이 인접 구축 시세 기준선 재설정.</div>
+      </div>
+      <div class="item">
+        <div class="when">2030</div>
+        <div class="what">8호선 판교 연장 착공 (예타 통과 가정)</div>
+        <div class="desc">모란역 가치 한 단계 상승. 모란~잠실·모란~판교 양방향 결절점.</div>
+      </div>
+      <div class="item">
+        <div class="when">2031~2032</div>
+        <div class="what">위례신사선 개통</div>
+        <div class="desc">위례 구역 강남 직결. 위례 시세 2차 리레이팅.</div>
+      </div>
+      <div class="item">
+        <div class="when">2035</div>
+        <div class="what">8호선 판교 연장 개통 목표</div>
+        <div class="desc">구도심 강남·판교 양방향 직결 완성.</div>
+      </div>
+      <div class="item">
+        <div class="when">2027~2030</div>
+        <div class="what">도촌지구 입주 20년 도래 + 노후계획도시 특별법 편입 시나리오</div>
+        <div class="desc">분당 연접지로 「2035 성남시 노후계획도시 정비기본계획」 본격 적용 가능성. 단, 분당 본도시 대비 사업성 절반 이하 (편입 자체는 미확정 시그널).</div>
+      </div>
+      <div class="item">
+        <div class="when">2030~2032</div>
+        <div class="what">위례 창곡동 단지군 리모델링 요건(15년) 도달</div>
+        <div class="desc">래미안위례·위례자이·위례센트럴자이 — 용적률 169~179%로 위례 정비사업 사업성 최상. 본격 추진 동력 발생 가능성.</div>
+      </div>
+      <div class="item">
+        <div class="when">2033 이후</div>
+        <div class="what">위례신도시 노후계획도시 특별법 후보지 도달 (20년 경과)</div>
+        <div class="desc">송파·성남·하남 3개 지자체 조율 난제로 실제 적용은 2040년 이후 시나리오.</div>
+      </div>
+    </div>
+
+    <h3>리스크 신호 (이런 경우 매수 보류)</h3>
+    <div class="alert danger">
+      <ul style="margin:0;">
+        <li class="risk">8호선 판교 연장 예타 부결 시 → 모란역세권 호재 시나리오 후퇴</li>
+        <li class="risk">상대원3구역 등 대규모 재개발이 6개월+ 사업 지연 시 → 인접 구축 후광효과 지연</li>
+        <li class="risk">재개발 분담금 폭증 뉴스가 누적될 때 → 인근 구축의 "대체 매수" 수요도 위축</li>
+        <li class="risk">분당 1기 신도시 재건축 일정이 5년+ 후퇴 시 → 도촌동 위성형 자산 가치 약화</li>
+        <li class="risk">고금리 장기화 시 → 정비사업 전반 지연 + 구축 매수 자금 부담</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="checklist">
+    <h2>⑨ 구축 매수자를 위한 체크리스트</h2>
+    <div class="card">
+      <h4>① 단지 자체 확인</h4>
+      <ul>
+        <li>최근 30일 실거래가 (호갱노노·국토부 실거래가공개시스템)</li>
+        <li>전세가율 — 60% 이상이면 안전, 50% 이하면 역전세 경계</li>
+        <li>주차 대수(세대당 1.0대 이상 권장), 지역난방 여부, 엘리베이터 개수</li>
+        <li>장기수선충당금 잔액·관리비 (구축은 노후도 비용 핵심)</li>
+      </ul>
+      <h4>② 입지 확인</h4>
+      <ul>
+        <li>8호선 역사 도보 시간 (직선거리가 아닌 실제 보행 경로)</li>
+        <li>인근 재개발 구역의 정확한 진행 단계 (성남시 도시정비과 고시)</li>
+        <li>학군 — 초·중·고 배정 (수정·중원은 분당 대비 학군 약함)</li>
+      </ul>
+      <h4>③ 재개발 후광 확인</h4>
+      <ul>
+        <li>인접 재개발 단지의 입주 예정 시점</li>
+        <li>해당 단지의 일반분양가 → 내 구축 단지 평당가의 0.6~0.8배 수준이면 가성비</li>
+        <li>지자체 도시정비기본계획 (2030 성남시 도시·주거환경정비기본계획 참고)</li>
+      </ul>
+      <h4>④ 매도 가능성</h4>
+      <ul>
+        <li>최근 1년 거래 건수 — 단지별 회전 확인</li>
+        <li>전용 84㎡(34평형)이 가장 환금성 높음. 작은 평형(59㎡)도 1인·신혼 수요 견고</li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="disclaimer">
+    <b>면책:</b> 본 리포트는 성남시·국토부·언론 공개자료를 종합한 입지·호재·정책 분석이며 투자 권유가 아니다. 단지별 세대수·입주년월 등 기본 사실은 다중 출처에서 교차 검증했으나 일부 단지(특히 도촌동 LH 시리즈)는 정확한 세대수가 출처마다 차이가 있어 호갱노노·KB부동산·국토부 실거래가공개시스템에서 단지별 직접 확인이 필수다. 시세는 일자별 변동성이 크므로 본 리포트에 구체 수치를 명시하지 않았다. 철도 사업 일정(위례신사선 2031~2032, 8호선 판교 연장 2035 등)은 국토부·성남시 공식 발표 기준이며 예타·재정 변수에 따른 지연 가능성 상존. 재개발 사업은 정비구역 지정~입주까지 통상 10년+ 소요되며 분담금·이주·시공사 변경 등 다수 리스크 동반. 매수 결정 전 현장 임장·등기부등본·관리비 내역 확인·세무 상담을 권장한다.
+  </div>
+
+  <div class="sources">
+    <b>출처 (사실 검증 기반)</b>
+    <ul>
+      <li><a href="https://www.seongnam.go.kr/city/1001101/10775/contents.do">성남시 도시정비 정비사업 현황 — 성남시청</a></li>
+      <li><a href="https://m.snvision.newsa.kr/a.html?uid=20184&sc=sc86">상대원3구역 재개발 정비구역 지정 고시 — 비전성남</a></li>
+      <li><a href="https://www.bundangnews.co.kr/56229">수정·중원 5개 구역 재개발 주민설명회 — 분당신문</a></li>
+      <li><a href="https://www.mt.co.kr/policy/2026/03/10/2026031015212850733">성남시 철도망 '겹경사' 8호선 판교연장·위례신사선 — 머니투데이</a></li>
+      <li><a href="https://www.snilbo.co.kr/48673">8호선 판교연장 예타 + 위례신사선 통과 — 성남일보</a></li>
+      <li><a href="https://namu.wiki/w/%EC%9C%84%EB%A1%80%EC%84%A0">위례선 트램 — 나무위키</a></li>
+      <li><a href="https://namu.wiki/w/%EC%84%9C%EC%9A%B8%20%EA%B2%BD%EC%A0%84%EC%B2%A0%20%EC%9C%84%EB%A1%80%EC%8B%A0%EC%82%AC%EC%84%A0">위례신사선 — 나무위키</a></li>
+      <li><a href="https://namu.wiki/w/%EC%82%B0%EC%84%B1%EC%97%AD%20%ED%97%A4%EB%A6%AC%EC%8A%A4%ED%86%A4">산성역 헤리스톤 — 나무위키</a></li>
+      <li><a href="https://namu.wiki/w/%EC%82%B0%EC%84%B1%EC%97%AD%20%EC%9E%90%EC%9D%B4%ED%91%B8%EB%A5%B4%EC%A7%80%EC%98%A4">산성역 자이푸르지오 — 나무위키</a></li>
+      <li><a href="https://hogangnono.com/apt/afxb2">단대푸르지오 — 호갱노노</a></li>
+      <li><a href="https://disco.re/l/catxtx">휴먼시아 섬마을 (도촌동) — 디스코</a></li>
+      <li><a href="https://hogangnono.com/apt/5cq88">LH 동분당 센트럴파크 — 호갱노노</a></li>
+      <li><a href="https://hogangnono.com/apt/5ctbf">동분당 포레스트 — 호갱노노</a></li>
+      <li><a href="https://namu.wiki/w/%EC%88%98%EB%8F%84%EA%B6%8C%20%EC%A0%84%EC%B2%A0%208%ED%98%B8%EC%84%A0/%EC%97%B0%EC%9E%A5">8호선 연장 (모란~판교~오포) — 나무위키</a></li>
+      <li><a href="https://m.snvision.newsa.kr/a.html?uid=18836">GTX-A 성남역 개통 — 비전성남</a></li>
+    </ul>
+
+    <p style="margin-top:14px;"><b>재건축·리모델링 정책 출처 (⑥ 섹션)</b></p>
+    <ul>
+      <li><a href="https://www.thepublic.kr/news/articleView.html?idxno=241349">도시정비법 2025.6 시행 — 30년 단지 안전진단 패싱 — 더퍼블릭</a></li>
+      <li><a href="https://law.go.kr/LSW/lsInfoP.do?lsiSeq=257379">노후계획도시 정비특별법 본문 — 국가법령정보센터</a></li>
+      <li><a href="https://www.korea.kr/news/policyNewsView.do?newsId=148925441">노후계획도시 특별법 108곳·215만 가구 적용 — 정책브리핑</a></li>
+      <li><a href="https://files-scs.pstatic.net/2024/09/11/jDenoVK0V1/2035%20%EC%84%B1%EB%82%A8%EC%8B%9C%20%EB%85%B8%ED%9B%84%EA%B3%84%ED%9A%8D%EB%8F%84%EC%8B%9C%EC%A0%95%EB%B9%84%EA%B8%B0%EB%B3%B8%EA%B3%84%ED%9A%8D(%EC%95%88)_%EC%9A%94%EC%95%BD%EB%B3%B8.pdf">2035 성남시 노후계획도시 정비기본계획(안) 요약본 — 성남시</a></li>
+      <li><a href="https://m.snvision.seongnam.go.kr/a.html?uid=21263&sc=sc82">2030 성남시 정비기본계획 — 17개 단지 10,807세대 재건축 지정 — 시정소식지</a></li>
+      <li><a href="https://www.korea.kr/news/policyNewsView.do?newsId=148771555">리모델링 수직증축 확대 + 세대수 15% — 정책브리핑</a></li>
+      <li><a href="https://www.housingherald.co.kr/news/articleView.html?idxno=36687">분당 리모델링 시범단지 현황 — 하우징헤럴드</a></li>
+      <li><a href="https://www.bizhankook.com/bk/article/30938">2025 부동산 구축 가격 분화 — 비즈한국</a></li>
+      <li><a href="https://www.homeknock.co.kr/web-front/community/insight/11005/">재건축 안 되는 아파트 판단 기준 — HomeKnock</a></li>
+    </ul>
+
+    <p style="margin-top:14px;"><b>단지별 용적률·시세 출처</b></p>
+    <ul>
+      <li><a href="https://hogangnono.com/apt/afxb2">단대푸르지오 (용적률 232%, 84㎡ 10.2억) — 호갱노노</a></li>
+      <li><a href="https://hogangnono.com/apt/5cq88">LH 동분당 센트럴파크 (=섬마을 1단지 분양분, 용적률 165%) — 호갱노노</a></li>
+      <li><a href="https://hogangnono.com/apt/5cs38">동분당 더퍼스트 (용적률 168%, 84㎡ 7.29억) — 호갱노노</a></li>
+      <li><a href="https://hogangnono.com/apt/5ctbf">동분당 포레스트 (용적률 169%) — 호갱노노</a></li>
+      <li><a href="https://kbland.kr/se/c/29878">위례자이 A2-3 (용적률 169%) — KB부동산</a></li>
+      <li><a href="https://kbland.kr/se/c/28213">래미안위례 A2-4 (용적률 179%) — KB부동산</a></li>
+      <li><a href="https://hogangnono.com/apt/21k9c">위례 24단지 송파꿈에그린 (용적률 194%, 송파 장지동) — 호갱노노</a></li>
+      <li><a href="https://www.aptrank.com/apt_detail.php?aptnameuid=15362">휴먼시아 섬마을 1단지 — 아파트랭킹</a></li>
+      <li><a href="https://zippoom.com/review/9Drp1zo1gTzltjaKusa6oQ">섬마을 휴먼시아 2단지 (LH 국민임대 중심) — 집품</a></li>
+    </ul>
+  </div>
+
+</div>
+</body>
+</html>
