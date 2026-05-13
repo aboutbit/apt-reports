@@ -6,272 +6,411 @@
 <title>구 성남 28년+ 구축 단지 재건축 가능성 분석</title>
 <style>
   :root {
-    --ink: #0B1220;
-    --ink-soft: #1f2937;
-    --accent: #B91C1C;
-    --accent-light: #DC2626;
-    --gold: #B45309;
+    --bg: #FFFFFF;
+    --bg-soft: #FAFAFA;
+    --bg-tint: #F4F4F5;
+    --ink: #09090B;
+    --ink-soft: #27272A;
+    --ink-mute: #52525B;
+    --muted: #71717A;
+    --line: #E4E4E7;
+    --line-soft: #F4F4F5;
+    --accent: #18181B;
     --bull: #DC2626;
     --bear: #2563EB;
-    --paper: #FAF7F2;
-    --line: #E7E2D6;
-    --muted: #6B7280;
+    --paper: var(--bg);
+
+    /* alias retained for legacy classes */
+    --ink-soft: #27272A;
+    --gold: #52525B;
+    --accent-light: #3F3F46;
   }
   * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", sans-serif;
-    background: var(--paper);
+    font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Apple SD Gothic Neo", "Inter", sans-serif;
+    background: var(--bg);
     color: var(--ink);
     line-height: 1.65;
+    font-feature-settings: "ss01", "tnum";
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  .wrap { max-width: 920px; margin: 0 auto; padding: 32px 24px 80px; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 56px 24px 96px; }
 
+  /* === HEADER === */
   header.cover {
-    background: linear-gradient(135deg, #1A1A2E 0%, #16213E 50%, #0F3460 100%);
-    color: #fff;
-    padding: 48px 36px;
-    border-radius: 16px;
+    background: var(--bg);
+    color: var(--ink);
+    padding: 8px 0 32px;
+    border-radius: 0;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 36px;
     position: relative;
-    overflow: hidden;
-    margin-bottom: 32px;
+    overflow: visible;
   }
-  header.cover::after {
-    content: "";
-    position: absolute;
-    top: 0; right: 24px;
-    width: 22px; height: 64px;
-    background: linear-gradient(180deg, #F59E0B 0%, var(--gold) 100%);
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
-  }
+  header.cover::after { content: none; }
   header.cover .tag {
     display: inline-block;
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    color: #F59E0B;
-    margin-bottom: 12px;
-    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 18px;
+    font-weight: 600;
+    text-transform: uppercase;
   }
   header.cover h1 {
-    font-size: 32px;
-    margin: 0 0 8px 0;
+    font-size: 38px;
+    margin: 0 0 12px 0;
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.028em;
+    line-height: 1.2;
+    color: var(--ink);
   }
   header.cover .sub {
     font-size: 15px;
-    opacity: 0.88;
+    color: var(--ink-mute);
     margin: 0;
+    font-weight: 400;
   }
   header.cover .meta {
-    margin-top: 20px;
-    font-size: 13px;
-    opacity: 0.7;
+    margin-top: 24px;
+    font-size: 12.5px;
+    color: var(--muted);
+    letter-spacing: 0.01em;
   }
 
-  section { margin-bottom: 36px; }
+  /* === SECTIONS === */
+  section { margin-bottom: 44px; }
   h2 {
-    font-size: 22px;
-    border-left: 4px solid var(--accent);
-    padding-left: 14px;
-    margin: 0 0 16px 0;
+    font-size: 20px;
+    border-left: none;
+    padding-left: 0;
+    margin: 0 0 18px 0;
     color: var(--ink);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
+    font-weight: 600;
   }
   h3 {
-    font-size: 16px;
-    margin: 20px 0 8px;
-    color: var(--ink-soft);
+    font-size: 15px;
+    margin: 22px 0 10px;
+    color: var(--ink);
+    font-weight: 600;
+    letter-spacing: -0.005em;
   }
   h4 {
-    font-size: 14px;
-    margin: 12px 0 6px;
-    color: var(--ink-soft);
+    font-size: 13.5px;
+    margin: 14px 0 6px;
+    color: var(--ink);
+    font-weight: 600;
   }
   p { margin: 0 0 12px; color: var(--ink-soft); }
-  ul, ol { margin: 8px 0 12px; padding-left: 22px; color: var(--ink-soft); }
+  ul, ol { margin: 8px 0 12px; padding-left: 20px; color: var(--ink-soft); }
   li { margin-bottom: 6px; }
+  b, strong { font-weight: 600; color: var(--ink); }
+  a { color: var(--ink); text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; transition: text-decoration-color .12s; }
+  a:hover { text-decoration-color: var(--ink); }
 
-  .card {
-    background: #fff;
+  /* === CARDS === */
+  .card, .card-accent {
+    background: var(--bg);
     border: 1px solid var(--line);
     border-radius: 12px;
-    padding: 20px 24px;
+    padding: 22px 24px;
     margin-bottom: 16px;
   }
-  .card-accent {
-    background: #FFF7ED;
-    border: 1px solid #FCD9B4;
-    border-radius: 12px;
-    padding: 20px 24px;
-    margin-bottom: 16px;
-  }
+  .card-accent { background: var(--bg-soft); }
 
+  /* === TABLES === */
   table {
     width: 100%;
     border-collapse: collapse;
     margin: 8px 0 16px;
     font-size: 13.5px;
-    background: #fff;
+    background: var(--bg);
     border-radius: 10px;
     overflow: hidden;
     border: 1px solid var(--line);
   }
   th, td {
-    padding: 11px 12px;
+    padding: 12px 14px;
     text-align: left;
     border-bottom: 1px solid var(--line);
     vertical-align: top;
   }
   th {
-    background: #F5EFE0;
+    background: var(--bg-soft);
     color: var(--ink);
-    font-weight: 700;
-    font-size: 12.5px;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.02em;
   }
   tr:last-child td { border-bottom: none; }
   td.num { text-align: right; font-variant-numeric: tabular-nums; }
   td.center { text-align: center; }
 
+  /* === BADGES === */
   .badge {
     display: inline-block;
     padding: 3px 9px;
     border-radius: 999px;
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 600;
     letter-spacing: 0.02em;
     margin-right: 6px;
+    border: 1px solid transparent;
   }
-  .badge-verified  { background: #DCFCE7; color: #166534; }
-  .badge-progress  { background: #FEF3C7; color: #92400E; }
-  .badge-planned   { background: #DBEAFE; color: #1E40AF; }
-  .badge-caveat    { background: #FECACA; color: #991B1B; }
-  .badge-stale     { background: #E5E7EB; color: #4B5563; }
+  .badge-verified  { background: var(--bg-soft); color: var(--ink); border-color: var(--line); }
+  .badge-progress  { background: var(--bg-soft); color: var(--ink-mute); border-color: var(--line); }
+  .badge-planned   { background: var(--bg);      color: var(--muted);   border-color: var(--line); }
+  .badge-caveat    { background: #FEF2F2;        color: #991B1B;        border-color: #FECACA; }
+  .badge-stale     { background: var(--bg);      color: var(--muted);   border-color: var(--line); }
 
+  /* === TIER === */
   .tier {
     display: inline-block;
-    padding: 2px 9px;
-    border-radius: 6px;
-    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 10.5px;
     font-weight: 700;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
   }
-  .tier-1 { background: var(--accent); color: #fff; }
-  .tier-2 { background: var(--gold); color: #fff; }
-  .tier-3 { background: #6B7280; color: #fff; }
-  .tier-x { background: #E5E7EB; color: #4B5563; }
+  .tier-1 { background: var(--ink); color: #fff; }
+  .tier-2 { background: var(--bg-soft); color: var(--ink); border: 1px solid var(--line); }
+  .tier-3 { background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
+  .tier-x { background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
 
+  /* === ALERTS === */
   .alert {
-    background: #FFF7ED;
-    border-left: 4px solid var(--gold);
-    border-radius: 8px;
+    background: var(--bg-soft);
+    border-left: 2px solid var(--ink);
+    border-radius: 4px;
     padding: 14px 18px;
     margin: 16px 0;
-    font-size: 14px;
+    font-size: 13.5px;
     color: var(--ink-soft);
   }
   .alert.danger {
     background: #FEF2F2;
-    border-left-color: var(--bear);
+    border-left-color: var(--bull);
   }
   .alert b { color: var(--ink); }
 
+  /* === COMPLEX CARD === */
   .complex-card {
-    background: #fff;
+    background: var(--bg);
     border: 1px solid var(--line);
-    border-radius: 12px;
-    padding: 20px 22px;
-    margin-bottom: 18px;
-    border-left: 5px solid var(--gold);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-bottom: 14px;
+    transition: border-color .15s, transform .15s;
   }
-  .complex-card.t1 { border-left-color: var(--accent); }
-  .complex-card.t2 { border-left-color: var(--gold); }
-  .complex-card.t3 { border-left-color: #6B7280; }
+  .complex-card:hover { border-color: #D4D4D8; }
+  .complex-card.t1 { border-left: 3px solid var(--ink); }
+  .complex-card.t2 { border-left: 3px solid #A1A1AA; }
+  .complex-card.t3 { border-left: 3px solid var(--line); }
   .complex-card .ch {
     display: flex;
     align-items: baseline;
     justify-content: space-between;
     gap: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 14px;
     flex-wrap: wrap;
   }
   .complex-card .cname {
     font-size: 18px;
-    font-weight: 800;
+    font-weight: 700;
     color: var(--ink);
+    letter-spacing: -0.015em;
   }
   .complex-card .cmeta {
     font-size: 12.5px;
     color: var(--muted);
+    margin-top: 2px;
   }
   .complex-card .cgrid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
-    margin: 10px 0 12px;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 1px;
+    margin: 14px 0;
+    background: var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--line);
   }
   .complex-card .cgrid .item {
-    background: #F8F4E9;
-    border-radius: 8px;
-    padding: 8px 10px;
+    background: var(--bg);
+    padding: 10px 12px;
     font-size: 12px;
   }
   .complex-card .cgrid .item .k {
     color: var(--muted);
     font-size: 10.5px;
     display: block;
-    margin-bottom: 2px;
+    margin-bottom: 3px;
     letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 500;
   }
   .complex-card .cgrid .item .v {
     font-size: 13.5px;
-    font-weight: 700;
+    font-weight: 600;
     color: var(--ink);
+    font-variant-numeric: tabular-nums;
   }
   .complex-card .prices {
-    background: #FFF9EF;
+    background: var(--bg-soft);
     border-radius: 8px;
-    padding: 10px 14px;
-    margin: 8px 0;
-    font-size: 13px;
+    padding: 11px 14px;
+    margin: 10px 0;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.6;
   }
-  .complex-card .prices b { color: var(--bull); }
+  .complex-card .prices b { color: var(--ink); font-weight: 600; }
   .complex-card .notes { font-size: 13px; color: var(--ink-soft); margin-top: 6px; }
-  .complex-card .notes p { margin: 4px 0; }
+  .complex-card .notes p { margin: 6px 0; }
 
+  /* === MISC === */
   .risk { color: var(--bear); font-weight: 600; }
   .gain { color: var(--bull); font-weight: 600; }
 
   .disclaimer {
-    margin-top: 40px;
-    padding: 16px 20px;
-    background: #F5EFE0;
+    margin-top: 48px;
+    padding: 18px 22px;
+    background: var(--bg-soft);
     border-radius: 10px;
     font-size: 12px;
     color: var(--muted);
-    line-height: 1.55;
+    line-height: 1.65;
+    border: 1px solid var(--line);
   }
-  .sources { margin-top: 24px; font-size: 12px; color: var(--muted); }
-  .sources a { color: var(--ink-soft); }
+  .sources { margin-top: 28px; font-size: 12px; color: var(--muted); line-height: 1.8; }
+  .sources a { color: var(--ink-mute); }
 
+  /* === TOC === */
   .toc {
-    background: #fff;
+    background: var(--bg);
     border: 1px solid var(--line);
     border-radius: 12px;
-    padding: 16px 24px;
-    margin-bottom: 28px;
-    font-size: 13px;
+    padding: 14px 22px;
+    margin-bottom: 32px;
+    font-size: 12.5px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 10px;
   }
   .toc a {
-    color: var(--ink-soft);
+    color: var(--ink-mute);
     text-decoration: none;
-    margin-right: 14px;
-    display: inline-block;
-    padding: 4px 0;
+    padding: 6px 0;
+    transition: color .12s;
   }
-  .toc a:hover { color: var(--accent); }
+  .toc a:hover { color: var(--ink); }
+
   .small { font-size: 12px; color: var(--muted); }
+
+  /* === FILTER UI === */
+  .filter-panel {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px 24px;
+    margin: 14px 0 24px;
+  }
+  .filter-panel .fhead {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .filter-panel .ftitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .filter-panel .fcount {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+  .filter-panel .fcount b { color: var(--ink); font-weight: 600; }
+  .filter-panel .freset {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 5px 12px;
+    font-size: 11.5px;
+    color: var(--ink-mute);
+    cursor: pointer;
+    letter-spacing: 0.02em;
+    font-family: inherit;
+    transition: border-color .12s, color .12s, background .12s;
+  }
+  .filter-panel .freset:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+  .fgroup {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0;
+    flex-wrap: wrap;
+  }
+  .fgroup .glabel {
+    font-size: 10.5px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+    min-width: 58px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+  .fchip {
+    display: inline-block;
+    padding: 5px 11px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 500;
+    background: var(--bg);
+    color: var(--ink-mute);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    user-select: none;
+    transition: background .12s, color .12s, border-color .12s;
+  }
+  .fchip:hover { border-color: #A1A1AA; color: var(--ink); }
+  .fchip.active {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+  .fchip.active.tier-c2 { background: #52525B; border-color: #52525B; }
+  .fchip.active.tier-c3 { background: #A1A1AA; border-color: #A1A1AA; }
+  .empty-state {
+    background: var(--bg);
+    border: 1px dashed var(--line);
+    border-radius: 12px;
+    padding: 32px 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+    margin: 14px 0;
+    display: none;
+  }
+  .empty-state.show { display: block; }
+  .complex-card.hidden { display: none; }
+
+  /* removed legacy decorations */
+  .timing, .timeline, .ranking, .rank-card { /* unused in this report; fallback if reused */
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+  }
 </style>
 </head>
 <body>
@@ -401,6 +540,53 @@
   <section id="cards">
     <h2>④ 단지별 카드 — 1990~1998 입주 14개</h2>
     <p class="small">아래는 250세대 이상, 1998년 이전 입주 단지 14곳. 호가·실거래는 2026-05-12 기준 네이버 매물 + 국토부 실거래.</p>
+
+    <div class="filter-panel" id="filterPanel">
+      <div class="fhead">
+        <div>
+          <div class="ftitle">단지 필터</div>
+          <div class="fcount"><b id="fcountNum">14</b> / 14 단지 표시 중</div>
+        </div>
+        <button class="freset" id="fresetBtn" type="button">초기화</button>
+      </div>
+
+      <div class="fgroup" data-fkey="district">
+        <span class="glabel">권역</span>
+        <span class="fchip" data-val="suji">수정구</span>
+        <span class="fchip" data-val="jungwon">중원구</span>
+      </div>
+
+      <div class="fgroup" data-fkey="tier">
+        <span class="glabel">티어</span>
+        <span class="fchip" data-val="1">TIER 1</span>
+        <span class="fchip tier-c2" data-val="2">TIER 2</span>
+        <span class="fchip tier-c3" data-val="3">TIER 3</span>
+      </div>
+
+      <div class="fgroup" data-fkey="era">
+        <span class="glabel">입주</span>
+        <span class="fchip" data-val="early">90~92년 (저층 多)</span>
+        <span class="fchip" data-val="mid">93~95년</span>
+        <span class="fchip" data-val="late">96~98년 (30년 임박)</span>
+      </div>
+
+      <div class="fgroup" data-fkey="size">
+        <span class="glabel">세대</span>
+        <span class="fchip" data-val="small">소형 &lt;300</span>
+        <span class="fchip" data-val="mid">중형 300~699</span>
+        <span class="fchip" data-val="large">대형 700+</span>
+      </div>
+
+      <div class="fgroup" data-fkey="group">
+        <span class="glabel">사업성</span>
+        <span class="fchip" data-val="A">A 저층 자력</span>
+        <span class="fchip" data-val="B">B 중층 후광</span>
+        <span class="fchip" data-val="C">C 거주+리모델링</span>
+        <span class="fchip" data-val="D">D 고층 난항</span>
+      </div>
+    </div>
+
+    <div class="empty-state" id="filterEmpty">선택한 조건에 해당하는 단지가 없습니다. 위 칩을 다시 토글해 보세요.</div>
 
     <!-- 1990 -->
     <div class="complex-card t1">
@@ -746,6 +932,83 @@
       </div>
     </div>
   </section>
+
+  <script>
+  (function(){
+    // 단지 메타 매핑 (cname 첫 토큰 → 필터 속성)
+    const META = {
+      '신흥한신':       {district:'suji',    tier:'1', year:1990, size:'mid',   group:'B'},
+      '선경논골':       {district:'suji',    tier:'2', year:1991, size:'mid',   group:'A'},
+      '금광삼익':       {district:'jungwon', tier:'2', year:1991, size:'mid',   group:'A'},
+      '태평선경':       {district:'suji',    tier:'3', year:1991, size:'mid',   group:'A'},
+      '신흥두산':       {district:'suji',    tier:'1', year:1993, size:'mid',   group:'B'},
+      '황송마을':       {district:'jungwon', tier:'1', year:1993, size:'large', group:'B'},
+      '일성':           {district:'jungwon', tier:'2', year:1993, size:'small', group:'B'},
+      '선경상대원2차':  {district:'jungwon', tier:'1', year:1994, size:'large', group:'B'},
+      '청구':           {district:'suji',    tier:'1', year:1994, size:'mid',   group:'B'},
+      '성원초원':       {district:'jungwon', tier:'3', year:1995, size:'small', group:'C'},
+      '하대원현대':     {district:'jungwon', tier:'2', year:1995, size:'mid',   group:'C'},
+      '삼부':           {district:'suji',    tier:'1', year:1996, size:'large', group:'C'},
+      '산성':           {district:'jungwon', tier:'2', year:1997, size:'mid',   group:'D'},
+      '진로':           {district:'suji',    tier:'2', year:1998, size:'mid',   group:'C'},
+    };
+    const ERA = y => y <= 1992 ? 'early' : y <= 1995 ? 'mid' : 'late';
+
+    const cards = Array.from(document.querySelectorAll('.complex-card'));
+    cards.forEach(card => {
+      const node = card.querySelector('.cname');
+      if (!node) return;
+      const key = node.childNodes[0].textContent.trim();
+      const m = META[key];
+      if (!m) return;
+      card.dataset.district = m.district;
+      card.dataset.tier = m.tier;
+      card.dataset.era = ERA(m.year);
+      card.dataset.size = m.size;
+      card.dataset.group = m.group;
+      card.dataset.name = key;
+    });
+
+    const state = { district:new Set(), tier:new Set(), era:new Set(), size:new Set(), group:new Set() };
+    const panel = document.getElementById('filterPanel');
+    const empty = document.getElementById('filterEmpty');
+    const fcount = document.getElementById('fcountNum');
+    const totalEl = document.querySelector('.fcount');
+    const TOTAL = cards.length;
+
+    function apply() {
+      let shown = 0;
+      cards.forEach(card => {
+        const pass = ['district','tier','era','size','group'].every(k => {
+          const s = state[k];
+          return s.size === 0 || s.has(card.dataset[k]);
+        });
+        card.classList.toggle('hidden', !pass);
+        if (pass) shown++;
+      });
+      fcount.textContent = shown;
+      empty.classList.toggle('show', shown === 0);
+    }
+
+    panel.querySelectorAll('.fchip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const key = chip.parentElement.dataset.fkey;
+        const val = chip.dataset.val;
+        if (state[key].has(val)) { state[key].delete(val); chip.classList.remove('active'); }
+        else { state[key].add(val); chip.classList.add('active'); }
+        apply();
+      });
+    });
+
+    document.getElementById('fresetBtn').addEventListener('click', () => {
+      Object.values(state).forEach(s => s.clear());
+      panel.querySelectorAll('.fchip.active').forEach(c => c.classList.remove('active'));
+      apply();
+    });
+
+    apply();
+  })();
+  </script>
 
   <section id="matrix">
     <h2>⑤ 재건축 사업성 매트릭스</h2>
