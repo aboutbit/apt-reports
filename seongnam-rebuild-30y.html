@@ -405,6 +405,86 @@
   .empty-state.show { display: block; }
   .complex-card.hidden { display: none; }
 
+  /* === STAGE INDICATOR === */
+  .stage {
+    background: var(--bg-soft);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin: 12px 0 6px;
+    font-size: 12.5px;
+    border: 1px solid var(--line);
+  }
+  .stage .stage-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+  }
+  .stage .stage-title {
+    font-size: 10.5px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+  .stage .stage-cur {
+    font-size: 12.5px;
+    color: var(--ink);
+    font-weight: 600;
+    letter-spacing: -0.005em;
+  }
+  .stage .stage-cur.muted { color: var(--muted); font-weight: 500; }
+  .stage-bar {
+    display: flex;
+    gap: 3px;
+    margin: 6px 0 4px;
+  }
+  .stage-step {
+    flex: 1;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--line);
+  }
+  .stage-step.done { background: var(--ink); }
+  .stage-step.current { background: var(--ink); }
+  .stage-labels {
+    display: flex;
+    font-size: 10px;
+    color: var(--muted);
+    margin-top: 3px;
+    letter-spacing: 0.02em;
+  }
+  .stage-labels span {
+    flex: 1;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .stage-note {
+    margin-top: 10px;
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+  }
+  .stage-note b { color: var(--ink); }
+  .stage-note .src {
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-left: 4px;
+  }
+  .stage-key {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin: 6px 0 14px;
+    font-size: 11.5px;
+    color: var(--ink-mute);
+    line-height: 1.7;
+  }
+  .stage-key b { color: var(--ink); font-weight: 600; }
+
   /* removed legacy decorations */
   .timing, .timeline, .ranking, .rank-card { /* unused in this report; fallback if reused */
     background: var(--bg);
@@ -475,6 +555,11 @@
           <td>주차 0~0.5대/세대인 90~91년 저층 단지는 주거환경 항목 점수 유리</td>
         </tr>
         <tr>
+          <td><b>안전진단 사실상 폐지 (2025.6 시행)</b></td>
+          <td>30년+ 단지는 안전진단 통과 없이 추진 가능. 추진위도 정비구역 지정 전 설립 가능 (사업기간 3년 단축)</td>
+          <td>본 리포트 14개 중 11곳(1996년 이전 입주)이 직접 수혜. 안전진단 단계에 묶여있던 황송마을·선경상대원2차도 단계 점프 가능성</td>
+        </tr>
+        <tr>
           <td><b>노후계획도시 특별법 (2024.4 시행)</b></td>
           <td>택지 100만㎡ 이상 + 20년 경과 + 단지 60% 이상 노후 시 통합 정비</td>
           <td>구 성남 = 1973년 광주대단지 이주민 정착지. 노후계획도시 지정 검토 가능성. <b>지정 시 용적률 최대 750%·종상향·안전진단 면제</b></td>
@@ -539,7 +624,12 @@
 
   <section id="cards">
     <h2>④ 단지별 카드 — 1990~1998 입주 14개</h2>
-    <p class="small">아래는 250세대 이상, 1998년 이전 입주 단지 14곳. 호가·실거래는 2026-05-12 기준 네이버 매물 + 국토부 실거래.</p>
+    <p class="small">아래는 250세대 이상, 1998년 이전 입주 단지 14곳. 호가·실거래는 2026-05-12 기준 네이버 매물 + 국토부 실거래. 각 카드의 <b>재건축 진행 단계</b>는 공개 보도·리치고 데이터를 토대로 한 보수적 추정이며, 단지 자체 추진 동향이 공개돼 있지 않은 단지는 1단계로 표기한다.</p>
+
+    <div class="stage-key">
+      <b>8단계 게이지 범례</b> &nbsp;
+      ① 동향 없음 · ② 정비구역 지정 / 정비계획 · ③ 추진위 · 안전진단 · ④ 조합설립 인가 · ⑤ 시공사 선정 · ⑥ 사업시행 인가 · ⑦ 관리처분 인가 · ⑧ 이주·철거 / 착공·준공
+    </div>
 
     <div class="filter-panel" id="filterPanel">
       <div class="fhead">
@@ -935,24 +1025,45 @@
 
   <script>
   (function(){
-    // 단지 메타 매핑 (cname 첫 토큰 → 필터 속성)
+    // 단지 메타 매핑 (cname 첫 토큰 → 필터 속성 + 재건축 단계)
+    // stage: 1=동향 없음, 2=구역 지정, 3=추진위/안전진단, 4=조합설립, 5=시공사, 6=사업시행, 7=관리처분, 8=착공·준공
+    const STAGES = ['동향 없음','구역 지정','추진위·안전진단','조합 설립','시공사 선정','사업시행 인가','관리처분 인가','이주·착공'];
+    const NOTE_NONE = '단지 자체 추진 동향 <b>공개 정보 없음</b>. 추진위 등록·안전진단 신청 흔적 미발견. 2025.6 안전진단 제도 폐지로 30년+ 단지는 추진위 단계로 빠르게 진입 가능.';
     const META = {
-      '신흥한신':       {district:'suji',    tier:'1', year:1990, size:'mid',   group:'B'},
-      '선경논골':       {district:'suji',    tier:'2', year:1991, size:'mid',   group:'A'},
-      '금광삼익':       {district:'jungwon', tier:'2', year:1991, size:'mid',   group:'A'},
-      '태평선경':       {district:'suji',    tier:'3', year:1991, size:'mid',   group:'A'},
-      '신흥두산':       {district:'suji',    tier:'1', year:1993, size:'mid',   group:'B'},
-      '황송마을':       {district:'jungwon', tier:'1', year:1993, size:'large', group:'B'},
-      '일성':           {district:'jungwon', tier:'2', year:1993, size:'small', group:'B'},
-      '선경상대원2차':  {district:'jungwon', tier:'1', year:1994, size:'large', group:'B'},
-      '청구':           {district:'suji',    tier:'1', year:1994, size:'mid',   group:'B'},
-      '성원초원':       {district:'jungwon', tier:'3', year:1995, size:'small', group:'C'},
-      '하대원현대':     {district:'jungwon', tier:'2', year:1995, size:'mid',   group:'C'},
-      '삼부':           {district:'suji',    tier:'1', year:1996, size:'large', group:'C'},
-      '산성':           {district:'jungwon', tier:'2', year:1997, size:'mid',   group:'D'},
-      '진로':           {district:'suji',    tier:'2', year:1998, size:'mid',   group:'C'},
+      '신흥한신':       {district:'suji',    tier:'1', year:1990, size:'mid',   group:'B', stage:1, stageNote: NOTE_NONE + ' 인근 <b>신흥3구역</b>(신흥1·2구역 완공 이후 후속 진행 예정) 통합 정비 가능성.'},
+      '선경논골':       {district:'suji',    tier:'2', year:1991, size:'mid',   group:'A', stage:1, stageNote: NOTE_NONE + ' 인근 <b>단대구역</b> 정비계획 수립 중 (2026 정비구역 지정 목표).'},
+      '금광삼익':       {district:'jungwon', tier:'2', year:1991, size:'mid',   group:'A', stage:1, stageNote: NOTE_NONE + ' 인근 <b>금광1구역</b> 정비사업 진행 중.'},
+      '태평선경':       {district:'suji',    tier:'3', year:1991, size:'mid',   group:'A', stage:1, stageNote: NOTE_NONE + ' 인근 <b>태평2·4구역</b> 정비계획 수립 중 (2026 정비구역 지정 목표).'},
+      '신흥두산':       {district:'suji',    tier:'1', year:1993, size:'mid',   group:'B', stage:1, stageNote: NOTE_NONE + ' 산성역 신축 벨트(헤리스톤 2027 입주) 인접 — 후광 효과 기대 단계.'},
+      '황송마을':       {district:'jungwon', tier:'1', year:1993, size:'large', group:'B', stage:3, stageNote: '<b>안전진단 진행 중</b> · 착수 후 약 5년 9개월 경과, 평균 소요 기간 초과로 무산 가능성도 거론. 추진위원회 미승인, 시공사 미정. 2025.6 안전진단 폐지로 추진위 → 조합설립 단계 점프 시도 가능. <span class="src">[리치고 / m.richgo.ai]</span>'},
+      '일성':           {district:'jungwon', tier:'2', year:1993, size:'small', group:'B', stage:1, stageNote: NOTE_NONE + ' <b>상대원3구역</b>(전국 최대 8,792세대 재개발) 정비구역 지정 완료 인접 — 통합 정비 합류 가능성.'},
+      '선경상대원2차':  {district:'jungwon', tier:'1', year:1994, size:'large', group:'B', stage:3, stageNote: '<b>안전진단 진행 중</b> · 기본계획 수립 2019.05, 안전진단 약 6년 11개월째 진행 (평균 1년 12개월 대비 현저 지연). 추진위원회 미승인, 조합 설립 인가 미진행, 시공사 미정. 무산 가능성 높게 평가됨. <span class="src">[리치고]</span>'},
+      '청구':           {district:'suji',    tier:'1', year:1994, size:'mid',   group:'B', stage:1, stageNote: NOTE_NONE + ' 산성역 신축 벨트 인접 — 신흥두산·신흥한신과 유사한 후광 영향권. <span class="src">(주의: 분당구 이매촌 청구아파트는 본 단지와 별개 — 리모델링 전환 추진 단지)</span>'},
+      '성원초원':       {district:'jungwon', tier:'3', year:1995, size:'small', group:'C', stage:1, stageNote: NOTE_NONE + ' 하대원동 정비구역 미지정 권역, 인접 후광 효과 약함. 리모델링 트랙이 더 현실적.'},
+      '하대원현대':     {district:'jungwon', tier:'2', year:1995, size:'mid',   group:'C', stage:1, stageNote: NOTE_NONE + ' 하대원동 정비구역 미지정. 주차 0.97대 + 다양한 평형으로 안전진단 환경 점수 불리 → 리모델링 우선 검토.'},
+      '삼부':           {district:'suji',    tier:'1', year:1996, size:'large', group:'C', stage:1, stageNote: NOTE_NONE + ' <b>2026년 30년 도달</b> — 안전진단 폐지 첫 수혜 가능 시점. 인근 <b>수진2구역</b>(2026 정비구역 지정 목표) 영향권. <span class="src">(주의: 인근 수진1구역 10,316세대 재개발은 다른 부지)</span>'},
+      '산성':           {district:'jungwon', tier:'2', year:1997, size:'mid',   group:'D', stage:1, stageNote: NOTE_NONE + ' 상대원3구역 인접. 21층 고층 + 추정 용적률 250%+로 자력 재건축 사업성 매우 낮음 — 리모델링 단일 트랙.'},
+      '진로':           {district:'suji',    tier:'2', year:1998, size:'mid',   group:'C', stage:1, stageNote: NOTE_NONE + ' 본 리포트 14개 중 가장 신축 (1998). 30년 룰 도달 2028. 인근 단대구역 정비 영향권.'},
     };
     const ERA = y => y <= 1992 ? 'early' : y <= 1995 ? 'mid' : 'late';
+
+    function makeStageHTML(stage, note) {
+      const segs = STAGES.map((s, i) => {
+        const idx = i + 1;
+        const cls = idx <= stage ? 'done' : 'future';
+        return `<div class="stage-step ${cls}" title="${idx}. ${s}"></div>`;
+      }).join('');
+      const labels = STAGES.map((_, i) => `<span>${i+1}</span>`).join('');
+      return `<div class="stage">
+        <div class="stage-head">
+          <span class="stage-title">재건축 진행 단계</span>
+          <span class="stage-cur${stage === 1 ? ' muted' : ''}">${stage}/8 · ${STAGES[stage-1]}</span>
+        </div>
+        <div class="stage-bar">${segs}</div>
+        <div class="stage-labels">${labels}</div>
+        <div class="stage-note">${note}</div>
+      </div>`;
+    }
 
     const cards = Array.from(document.querySelectorAll('.complex-card'));
     cards.forEach(card => {
@@ -967,6 +1078,8 @@
       card.dataset.size = m.size;
       card.dataset.group = m.group;
       card.dataset.name = key;
+      const pricesEl = card.querySelector('.prices');
+      if (pricesEl) pricesEl.insertAdjacentHTML('afterend', makeStageHTML(m.stage, m.stageNote));
     });
 
     const state = { district:new Set(), tier:new Set(), era:new Set(), size:new Set(), group:new Set() };
@@ -1242,8 +1355,9 @@
     · 국토부 실거래가 공개시스템 (apt_transactions)<br>
     · 네이버 부동산 매물 데이터 (apt_listings, 2026-05-12 스냅샷)<br>
     · 네이버 부동산 단지 메타 (naver_complex_meta — 입주연도·세대수·층수·주차·평형)<br>
-    · 성남시 도시정비 고시 (구역별 단계 추정)<br>
-    · 노후계획도시 정비 및 지원에 관한 특별법 (2024.4 시행)<br>
+    · 성남시 도시정비 고시 (구역별 단계 추정) · <a href="https://www.seongnam.go.kr/city/1001100/30564/bbsList.do" target="_blank">정비사업현황</a><br>
+    · <a href="https://m.richgo.ai/realty/place/rebuilding/r0IYvOE" target="_blank">리치고 — 황송마을 재건축</a> / <a href="https://m.richgo.ai/realty/place/rebuilding/r6UIgHt" target="_blank">선경상대원2차 재건축</a> (단지별 진행 단계 출처)<br>
+    · 노후계획도시 정비 및 지원에 관한 특별법 (2024.4 시행) + 안전진단 사실상 폐지 (주택법 개정 2025.6 시행)<br>
     · 본 리포트는 <a href="seongnam-old-city.html">구 성남 구축 단지 투자가치 분석 (2026.05.11)</a>의 후속편으로, 1998년 이전 입주 단지로 범위를 좁혀 재건축 관점에 집중함.
   </div>
 
